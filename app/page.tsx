@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 // simple data for each full-screen section
 const SLIDES = [
   {
@@ -29,6 +31,8 @@ const SLIDES = [
 ];
 
 export default function Home() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-[#050505] text-[#F5E9D3]">
       {/* NAVBAR */}
@@ -39,52 +43,114 @@ export default function Home() {
             STORE OVERSIZED
           </div>
 
-          {/* NAVIGATION */}
-<nav className="hidden gap-6 text-xs md:flex">
-  <a
-    href="/"
-    className="uppercase tracking-[0.18em] text-[#C8B79A] hover:text-[#F5E9D3]"
-  >
-    Home
-  </a>
+          {/* DESKTOP NAV */}
+          <nav className="hidden gap-6 text-xs md:flex">
+            <a
+              href="/"
+              className="uppercase tracking-[0.18em] text-[#F5E9D3] font-medium"
+            >
+              Home
+            </a>
 
-  <a
-    href="/crocs"
-    className="uppercase tracking-[0.18em] text-[#C8B79A] hover:text-[#F5E9D3]"
-  >
-    Crocs
-  </a>
+            <a
+              href="/crocs"
+              className="uppercase tracking-[0.18em] text-[#C8B79A] hover:text-[#F5E9D3]"
+            >
+              Crocs
+            </a>
 
-  <a
-    href="/birkenstock"
-    className="uppercase tracking-[0.18em] text-[#C8B79A] hover:text-[#F5E9D3]"
-  >
-    Birkenstock
-  </a>
+            <a
+              href="/birkenstock"
+              className="uppercase tracking-[0.18em] text-[#C8B79A] hover:text-[#F5E9D3]"
+            >
+              Birkenstock
+            </a>
 
-  <a
-    href="/authenticity"
-    className="uppercase tracking-[0.18em] text-[#C8B79A] hover:text-[#F5E9D3]"
-  >
-    Authenticity
-  </a>
+            <a
+              href="/authenticity"
+              className="uppercase tracking-[0.18em] text-[#C8B79A] hover:text-[#F5E9D3]"
+            >
+              Authenticity
+            </a>
 
-  <a
-    href="/contact"
-    className="uppercase tracking-[0.18em] text-[#F5E9D3] font-medium"
-  >
-    Contact
-  </a>
-</nav>
+            <a
+              href="/contact"
+              className="uppercase tracking-[0.18em] text-[#C8B79A] hover:text-[#F5E9D3]"
+            >
+              Contact
+            </a>
+          </nav>
 
-          {/* CART */}
-          <button className="text-xs uppercase tracking-[0.18em] text-[#C8B79A] hover:text-[#F5E9D3]">
-            Cart (0)
-          </button>
+          {/* DESKTOP CART + MOBILE MENU BUTTON */}
+          <div className="flex items-center gap-3">
+            {/* Cart (desktop only) */}
+            <button className="hidden text-xs uppercase tracking-[0.18em] text-[#C8B79A] hover:text-[#F5E9D3] md:inline-block">
+              Cart (0)
+            </button>
+
+            {/* Hamburger (mobile only) */}
+            <button
+              className="md:hidden text-[#F5E9D3]"
+              onClick={() => setIsMenuOpen((p) => !p)}
+              aria-label="Toggle menu"
+            >
+              <div className="space-y-1">
+                <span className="block h-[2px] w-5 bg-[#F5E9D3]" />
+                <span className="block h-[2px] w-5 bg-[#F5E9D3]" />
+                <span className="block h-[2px] w-5 bg-[#F5E9D3]" />
+              </div>
+            </button>
+          </div>
         </div>
+
+        {/* MOBILE MENU */}
+        {isMenuOpen && (
+          <div className="md:hidden border-t border-[#2e2a24] bg-[#050505]">
+            <nav className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-4 text-xs">
+              <a
+                href="/"
+                onClick={() => setIsMenuOpen(false)}
+                className="uppercase tracking-[0.2em] text-[#F5E9D3]"
+              >
+                Home
+              </a>
+              <a
+                href="/crocs"
+                onClick={() => setIsMenuOpen(false)}
+                className="uppercase tracking-[0.2em] text-[#C8B79A] hover:text-[#F5E9D3]"
+              >
+                Crocs
+              </a>
+              <a
+                href="/birkenstock"
+                onClick={() => setIsMenuOpen(false)}
+                className="uppercase tracking-[0.2em] text-[#C8B79A] hover:text-[#F5E9D3]"
+              >
+                Birkenstock
+              </a>
+              <a
+                href="/authenticity"
+                onClick={() => setIsMenuOpen(false)}
+                className="uppercase tracking-[0.2em] text-[#C8B79A] hover:text-[#F5E9D3]"
+              >
+                Authenticity
+              </a>
+              <a
+                href="/contact"
+                onClick={() => setIsMenuOpen(false)}
+                className="uppercase tracking-[0.2em] text-[#C8B79A] hover:text-[#F5E9D3]"
+              >
+                Contact
+              </a>
+              <button className="mt-2 text-left text-xs uppercase tracking-[0.2em] text-[#C8B79A] hover:text-[#F5E9D3]">
+                Cart (0)
+              </button>
+            </nav>
+          </div>
+        )}
       </header>
 
-      {/* FULLSCREEN SECTIONS */}
+      {/* FULLSCREEN SECTIONS, NORMAL PAGE SCROLL */}
       <main className="bg-[#050505]">
         {SLIDES.map((slide, i) => (
           <section
@@ -113,7 +179,7 @@ export default function Home() {
                 </span>
               </div>
 
-              <h1 className="text-4xl font-light leading-tight md:text-6xl text-[#F5E9D3]">
+              <h1 className="text-3xl font-light leading-tight md:text-6xl text-[#F5E9D3]">
                 {slide.title}
               </h1>
 
@@ -121,21 +187,19 @@ export default function Home() {
                 {slide.subtitle}
               </p>
 
-              {/* BUTTONS ONLY ON FIRST SLIDE */}
+              {/* CTA only on first slide */}
               {i === 0 && (
                 <div className="mt-4 flex flex-wrap gap-3 text-xs uppercase tracking-[0.18em]">
-                  {/* CROCS */}
                   <a
                     href="/crocs"
-                    className="bg-[#F5E9D3] px-6 py-2 text-[#050505] hover:bg-[#E8DCC2] uppercase tracking-[0.18em] text-xs flex items-center justify-center"
+                    className="bg-[#F5E9D3] px-6 py-2 text-[#050505] hover:bg-[#E8DCC2] text-xs flex items-center justify-center"
                   >
                     Shop Crocs
                   </a>
 
-                  {/* BIRKENSTOCK */}
                   <a
                     href="/birkenstock"
-                    className="border border-[#F5E9D3] px-6 py-2 text-[#F5E9D3] hover:bg-[#F5E9D3]/10 uppercase tracking-[0.18em] text-xs flex items-center justify-center"
+                    className="border border-[#F5E9D3] px-6 py-2 text-[#F5E9D3] hover:bg-[#F5E9D3]/10 text-xs flex items-center justify-center"
                   >
                     Shop Birkenstock
                   </a>
