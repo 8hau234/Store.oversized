@@ -32,16 +32,44 @@ const SLIDES = [
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [search, setSearch] = useState("");
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // for now just log – later you can route to /search?query=...
+    console.log("Searching for:", search);
+  };
 
   return (
     <div className="min-h-screen bg-[#050505] text-[#F5E9D3]">
       {/* NAVBAR */}
-      <header className="sticky top-0 z-40 border-b border-[#2e2a24] bg-[#050505]/80 backdrop-blur">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
+      <header className="sticky top-0 z-40 border-b border-[#2e2a24] bg-[#050505]/90 backdrop-blur">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4">
           {/* LOGO */}
-          <div className="text-2xl md:text-3xl tracking-[0.25em] font-light">
+          <div className="text-xl md:text-2xl tracking-[0.25em] font-light whitespace-nowrap">
             STORE OVERSIZED
           </div>
+
+          {/* DESKTOP SEARCH */}
+          <form
+            onSubmit={handleSearchSubmit}
+            className="hidden flex-1 items-center justify-center md:flex"
+          >
+            <div className="relative w-full max-w-xs">
+              <input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full rounded-full bg-[#141210] px-4 py-2 pr-8 text-xs text-[#F5E9D3] placeholder:text-[#7d7361] outline-none border border-[#2e2a24] focus:border-[#F5E9D3]"
+                placeholder="Search Crocs, Birkenstock, sizes..."
+              />
+              <button
+                type="submit"
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-[11px] uppercase tracking-[0.2em] text-[#C8B79A] hover:text-[#F5E9D3]"
+              >
+                Go
+              </button>
+            </div>
+          </form>
 
           {/* DESKTOP NAV */}
           <nav className="hidden gap-6 text-xs md:flex">
@@ -51,28 +79,24 @@ export default function Home() {
             >
               Home
             </a>
-
             <a
               href="/crocs"
               className="uppercase tracking-[0.18em] text-[#C8B79A] hover:text-[#F5E9D3]"
             >
               Crocs
             </a>
-
             <a
               href="/birkenstock"
               className="uppercase tracking-[0.18em] text-[#C8B79A] hover:text-[#F5E9D3]"
             >
               Birkenstock
             </a>
-
             <a
               href="/authenticity"
               className="uppercase tracking-[0.18em] text-[#C8B79A] hover:text-[#F5E9D3]"
             >
               Authenticity
             </a>
-
             <a
               href="/contact"
               className="uppercase tracking-[0.18em] text-[#C8B79A] hover:text-[#F5E9D3]"
@@ -81,7 +105,7 @@ export default function Home() {
             </a>
           </nav>
 
-          {/* DESKTOP CART + MOBILE MENU BUTTON */}
+          {/* RIGHT SIDE: CART + BURGER */}
           <div className="flex items-center gap-3">
             {/* Cart (desktop only) */}
             <button className="hidden text-xs uppercase tracking-[0.18em] text-[#C8B79A] hover:text-[#F5E9D3] md:inline-block">
@@ -103,10 +127,32 @@ export default function Home() {
           </div>
         </div>
 
-        {/* MOBILE MENU */}
-        {isMenuOpen && (
-          <div className="md:hidden border-t border-[#2e2a24] bg-[#050505]">
-            <nav className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-4 text-xs">
+        {/* MOBILE SEARCH + MENU */}
+        <div className="md:hidden border-t border-[#2e2a24] bg-[#050505]">
+          {/* mobile search bar */}
+          <form
+            onSubmit={handleSearchSubmit}
+            className="mx-auto max-w-6xl px-4 py-3"
+          >
+            <div className="relative w-full">
+              <input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full rounded-full bg-[#141210] px-4 py-2 pr-10 text-xs text-[#F5E9D3] placeholder:text-[#7d7361] outline-none border border-[#2e2a24] focus:border-[#F5E9D3]"
+                placeholder="Search Crocs, Birks, sizes..."
+              />
+              <button
+                type="submit"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] uppercase tracking-[0.2em] text-[#C8B79A]"
+              >
+                Go
+              </button>
+            </div>
+          </form>
+
+          {/* mobile nav links */}
+          {isMenuOpen && (
+            <nav className="mx-auto flex max-w-6xl flex-col gap-3 px-4 pb-4 text-xs">
               <a
                 href="/"
                 onClick={() => setIsMenuOpen(false)}
@@ -146,8 +192,8 @@ export default function Home() {
                 Cart (0)
               </button>
             </nav>
-          </div>
-        )}
+          )}
+        </div>
       </header>
 
       {/* FULLSCREEN SECTIONS, NORMAL PAGE SCROLL */}
